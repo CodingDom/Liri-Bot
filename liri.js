@@ -8,7 +8,7 @@ var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var moment = require("moment");
 
-var command = process.argv[0].toLowerCase();
+var command = process.argv[0]?process.argv[0].toLowerCase():"help";
 var val = process.argv.slice(1).join("+");
 
 switch (command) {
@@ -42,9 +42,17 @@ switch (command) {
 
     break;
     case "help":
+        var message = `\n${colors.FgYellow}Welcome to the LIRI Bot!\n`;
+        message += `Here are a list of my commands:\n`;
+        message += `${colors.FgGreen}concert-this "Band Name"${colors.Reset} - Searches for all upcoming events hosted by/for your favorite bands.\n`;
+        message += `${colors.FgGreen}do-what-it-says${colors.Reset} - Runs any command that is stored within the random.txt file.\n`
+        message += `${colors.FgGreen}movie-this "Movie Title"${colors.Reset} - Gathers information and ratings on your favorite movie titles.\n`;
+        message += `${colors.FgGreen}spotify-this-song "Song Title"${colors.Reset} - Gathers information on your favorite songs.\n`;
 
+
+        console.log(message);
     break;
     default: 
-        console.log('Invalid command, type "help" for instructions');
+        console.log(`Invalid command, type ${colors.FgYellow}"help"${colors.Reset} for instructions`);
     break;
 }
