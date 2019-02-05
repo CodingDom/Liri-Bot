@@ -2,7 +2,7 @@ require("dotenv").config();
 process.argv.splice(0,2);
 
 var keys = require("./keys.js");
-var colors = require("./log-colors.js").logColors;
+var colors = require("./log-colors.js");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
@@ -20,6 +20,7 @@ return color + msg + colors.Reset;
 function runCommand(cmd,val) {
     switch (cmd) {
         case "concert-this":
+            // Setting up default value
             if (val == "") {
                 val = "Drake";
             };
@@ -29,10 +30,13 @@ function runCommand(cmd,val) {
                 var data = response.data;
                 data.forEach(function(event) {
                     var venue = event.venue;
+                    // Reformatting the event's date
                     var date = moment(event.datetime).format("MM/DD/YYYY");
+
                     var info = `[${colors.FgGreen}${date}${colors.Reset}] Playing at ${colors.FgMagenta}${venue.name}${colors.Reset} in ${colors.FgCyan}${venue.city}`;
 
                     // Checking if region exists within data.
+                    // Region info usually doesn't exist for places outside of the united states
                     if (venue.region != "" && venue.region != false) {
                         info += `, ${venue.region}`;
                     };
@@ -43,26 +47,28 @@ function runCommand(cmd,val) {
             });
         break;
         case "do-what-it-says":
+            // Grabs text from random.txt file runs it as a command
             fs.readFile("random.txt", "utf-8", function(err,data) {
                 const dataArr = data.split(",");
                 runCommand(dataArr[0],dataArr[1]);
             });
         break;
         case "movie-this":
+            // Setting up default value
             if (val == "") {
                 val = "Mr. Nobody";
             };
             axios.get("http://www.omdbapi.com/?apikey=trilogy&t="+val)
             .then(function(response) {
             var data = response.data;
-            var info = `Title: ${data.Title}\n`;
-            info += `Release Date: ${data.Released}\n`;
-            info += `IMDB Rating: ${data.imdbRating}\n`;
-            info += `Rotten Tomatoes Rating: ${data.Ratings[1].Value}\n`;
-            info += `Produced in ${data.Country}\n`;
-            info += `Language: ${data.Language}\n`;
-            info += `Plot: ${data.Plot}\n`;
-            info += `Actors: ${data.Actors}\n`;
+            var info = `Title: ${addColor(colors.FgCyan,data.Title)}\n`;
+            info += `Release Date: ${addColor(colors.FgGreen,data.Released)}\n`;
+            info += `IMDB Rating: ${addColor(colors.FgBlue,data.imdbRating)}\n`;
+            info += `Rotten Tomatoes Rating: ${addColor(colors.FgRed,data.Ratings[1].Value)}\n`;
+            info += `Produced in ${addColor(colors.FgMagenta,data.Country)}\n`;
+            info += `Language: ${addColor(colors.FgYellow,data.Language)}\n`;
+            info += `Plot: ${addColor(colors.FgWhite,data.Plot)}\n`;
+            info += `Actors: ${addColor(colors.FgCyan,data.Actors)}\n`;
             console.log(info);
             })
             .catch(function(error) {
@@ -70,6 +76,7 @@ function runCommand(cmd,val) {
             });
         break;
         case "spotify-this-song":
+            // Setting up default value
             if (val == "") {
                 val = "The Sign Ace of Base";
             };
@@ -79,7 +86,7 @@ function runCommand(cmd,val) {
                 }
             
                 data.tracks.items.forEach(function(track) {
-                    var info = `Artists:`;  
+                    var info = "Artists:";  
                     track.artists.forEach(function(artist) {
                         info += " " + addColor(colors.FgMagenta,artist.name);
                     });
@@ -102,7 +109,7 @@ function runCommand(cmd,val) {
         case "help":
             var message = `\n${colors.FgYellow}Welcome to the LIRI Bot!\n`;
             message += `Here are a list of my commands:\n`;
-            message += addColor(colors.FgGreen,'concert-this "Band Name"') + " - Searches for all upcoming events hosted by/for your favorite bands.\n";
+            message += addColor(colors.FgGreen,'concert-this "Band Name"') + " - Searches for all upcoming events hosted by/for your favorite musicians.\n";
             message += addColor(colors.FgGreen,'do-what-it-says') + " - Runs any command that is stored within the random.txt file.\n";
             message += addColor(colors.FgGreen,'movie-this "Movie Title"') + " - Gathers information and ratings on your favorite movie titles.\n";
             message += addColor(colors.FgGreen,'spotify-this-song "Song Title"') + " - Gathers information on your favorite songs.\n";
@@ -113,6 +120,8 @@ function runCommand(cmd,val) {
             console.log(`Invalid command, type ${addColor(colors.FgYellow,'"help"')} for instructions`);
         break;
     };
+
+    // Logs every command along with all arguments passed
     fs.appendFile("logs.txt",cmd + "," + val + "\n",function(err) {
         if (err) {
             return console.log("Error Occured: " + err);

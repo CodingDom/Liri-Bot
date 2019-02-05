@@ -1,4 +1,6 @@
-exports.logColors = {
+// List of console log color configurations
+
+module.exports = {
     Reset : "\x1b[0m",
     Bright : "\x1b[1m",
     Dim : "\x1b[2m",
