@@ -20,6 +20,9 @@ return color + msg + colors.Reset;
 function runCommand(cmd,val) {
     switch (cmd) {
         case "concert-this":
+            if (val == "") {
+                val = "Drake";
+            };
             console.log("Liri is now gathering event info for " + val.replace("+", " "))
             axios.get("https://rest.bandsintown.com/artists/" + val + "/events?app_id=codingbootcamp")
             .then(function(response) {
@@ -40,9 +43,15 @@ function runCommand(cmd,val) {
             });
         break;
         case "do-what-it-says":
-            
+            fs.readFile("random.txt", "utf-8", function(err,data) {
+                const dataArr = data.split(",");
+                runCommand(dataArr[0],dataArr[1]);
+            });
         break;
         case "movie-this":
+            if (val == "") {
+                val = "Mr. Nobody";
+            };
             axios.get("http://www.omdbapi.com/?apikey=trilogy&t="+val)
             .then(function(response) {
             var data = response.data;
@@ -61,6 +70,9 @@ function runCommand(cmd,val) {
             });
         break;
         case "spotify-this-song":
+            if (val == "") {
+                val = "The Sign Ace of Base";
+            };
             spotify.search({ type: 'track', query: val }, function(err, data) {
                 if (err) {
                 return console.log(addColors(colors.FgRed,"Error occurred: ") + err);
@@ -100,7 +112,12 @@ function runCommand(cmd,val) {
         default: 
             console.log(`Invalid command, type ${addColor(colors.FgYellow,'"help"')} for instructions`);
         break;
-    }
+    };
+    fs.appendFile("logs.txt",cmd + "," + val + "\n",function(err) {
+        if (err) {
+            return console.log("Error Occured: " + err);
+        };
+    });
 };    
 
 
