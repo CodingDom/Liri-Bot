@@ -12,9 +12,6 @@ var command = process.argv[0]?process.argv[0].toLowerCase():"help";
 var val = process.argv.slice(1).join("+");
 
 switch (command) {
-    case "spotify-this-song":
-        
-    break;
     case "concert-this":
         console.log("Liri is now gathering event info for " + val.replace("+", " "))
         axios.get("https://rest.bandsintown.com/artists/" + val + "/events?app_id=codingbootcamp")
@@ -35,11 +32,38 @@ switch (command) {
             });
         });
     break;
+    case "do-what-it-says":
+
+    break;
     case "movie-this":
     
     break;
-    case "do-what-it-says":
+    case "spotify-this-song":
+        spotify.search({ type: 'track', query: val }, function(err, data) {
+            if (err) {
+            return console.log(`${colors.FgRed}Error occurred:${colors.Reset} ${err}`);
+            }
+        
+            data.tracks.items.forEach(function(track) {
+                var info = `Artists:${colors.FgMagenta}`;  
+                track.artists.forEach(function(artist) {
+                    info += " " + artist.name;
+                });
+                
+                info += `\n${colors.Reset}Song Title:${colors.FgGreen} ${track.name}`;
 
+                if (track.preview_url) {
+                    info += `\n${colors.Reset}Preview:${colors.FgBlue} ${track.preview_url}`;
+                };
+
+                if (track.album && track.album.name && track.album.name != "") {
+                    info += `\n${colors.Reset}Album:${colors.FgCyan} ${track.album.name}`;
+                };
+
+                info += colors.FgYellow + "\n-----------------------------------------"
+                console.log(info + colors.Reset);
+            });
+        });
     break;
     case "help":
         var message = `\n${colors.FgYellow}Welcome to the LIRI Bot!\n`;
@@ -48,7 +72,6 @@ switch (command) {
         message += `${colors.FgGreen}do-what-it-says${colors.Reset} - Runs any command that is stored within the random.txt file.\n`
         message += `${colors.FgGreen}movie-this "Movie Title"${colors.Reset} - Gathers information and ratings on your favorite movie titles.\n`;
         message += `${colors.FgGreen}spotify-this-song "Song Title"${colors.Reset} - Gathers information on your favorite songs.\n`;
-
 
         console.log(message);
     break;
