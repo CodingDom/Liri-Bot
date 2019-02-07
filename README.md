@@ -21,12 +21,12 @@ At the botom of the drop down click the "Download Zip" button.
 
 Open up the "Liri-Bot" file in a command terminal. 
 
-Use 'npm install' to install all required dependencies for the app.
+Use "npm install" to install all required dependencies for the app.
 
 ```
 npm install
 ```
-Use 'node liri.js' in the command line along with any of the commands listed below in order to run them within your terminal.
+Use "node liri.js" in the command line along with any of the commands listed below in order to run them within your terminal.
 
 ```
 node liri.js "concert-this"
