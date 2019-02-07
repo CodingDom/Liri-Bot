@@ -6,45 +6,27 @@
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-Download a copy of the repo using GitBash. Link to the repo below.
-
-[GitHub](https://github.com/CodingDom/Liri-Bot) - The link to the the GitHub repo
-...
-
 ### Prerequisites
 
-[GitBash](https://git-scm.com/downloads) - Link to GitBash downloads
-...
-
-Or donload the zipped file off of the GitHub repository by clicking the link below. When the page is loaded, click on the "clone or download" button. 
-at the botom of the drop down click the "Download Zip" button. 
-
-[GitHub](https://github.com/CodingDom/Liri-Bot) - link to GitHub repo
-
+* CMD Terminal
+* GitBash(Optional)
+* Node Js
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+Download the zipped file from the GitHub repository by clicking the link below. When the page is loaded, click on the "clone or download" button. 
+At the botom of the drop down click the "Download Zip" button. 
 
-Using [GitBash](https://git-scm.com/downloads) use 'pwd' to find out where you are in your system.
+[GitHub](https://github.com/CodingDom/Liri-Bot) - link to GitHub repo
 
-```
-pwd 'then press enter'
-```
+Open up the "Liri-Bot" file in a command terminal. 
 
-Use 'cd' to navigate to 'Desktop' 
-
-```
-cd Desktop 'then press enter'
-```
-
-Using the link found in the 'clone and Download' button of the [GitHub](https://github.com/CodingDom/Liri-Bot) repository, conduct a git clone
+Use 'npm install' to install all required dependencies for the app.
 
 ```
-git clone https://github.com/CodingDom/Liri-Bot.git 'then press enter'
+npm install
 ```
-
-Use 'node liri.js' and any of the commands listed below in order to run them within your terminal.
+Use 'node liri.js' in the command line along with any of the commands listed below in order to run them within your terminal.
 
 ```
 node liri.js "concert-this"
