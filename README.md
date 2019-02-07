@@ -1,6 +1,6 @@
 # Liri-Bot
 
-<i><b>Liri Bot</b></i> is a command-line application with a variety of features. Used to perform multiple searches on a variety of topics for entertainment purposes.
+<i><b>Liri Bot</b></i> is a command-line application with a variety of features. This tool is used to perform multiple searches on a variety of interests for entertainment purposes.
 
 ## Getting Started
 
